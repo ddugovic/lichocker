@@ -1,29 +1,22 @@
-FROM ubuntu:16.04
+FROM ddugovic/sbt
 
 RUN useradd -ms /bin/bash lichess \
     && apt-get update \
+    && apt-get install -y apt-utils \
     && apt-get install -y apt-transport-https \
     # Add the MongoDB source.
-    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927 \
-    && echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" \
-        | tee /etc/apt/sources.list.d/mongodb-org-3.2.list \
-    # Add the Scala Build Tool source.
-    && echo "deb https://dl.bintray.com/sbt/debian /" \
-        | tee -a /etc/apt/sources.list.d/sbt.list \
-    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 \
+    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5 \
+    && echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/3.6 main" \
+        | tee /etc/apt/sources.list.d/mongodb-org-3.6.list \
     && apt-get update \
     && apt-get install -y \
-        curl \
-        default-jdk \
         git-all \
         locales \
         mongodb-org \
         nginx \
-        npm \
+        nodejs \
         parallel \
-        sbt \
         sudo \
-        wget \
     # Disable sudo login.
     && echo "lichess ALL = NOPASSWD : ALL" >> /etc/sudoers \
     # Set locale.
@@ -52,7 +45,7 @@ RUN useradd -ms /bin/bash lichess \
     && apt-get purge -y \
         curl \
         git-all \
-        npm \
+        nodejs \
     && apt-get autoremove -y \
     && apt-get clean \
     && /root/.cargo/bin/rustup self uninstall -y
