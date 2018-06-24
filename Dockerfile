@@ -11,7 +11,6 @@ RUN useradd -ms /bin/bash lichess \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash -E - \
     && apt-get update \
     && apt-get install -y \
-        build-essential \
         git-all \
         locales \
         mongodb-org \
@@ -28,25 +27,19 @@ RUN useradd -ms /bin/bash lichess \
     && n stable \
     && npm install -g yarn \
     && yarn global add gulp-cli \
-    # Install svgcleaner via the Rust package manager, Cargo.
-    # This requires build-essential and downloads many dependencies
-    && curl https://sh.rustup.rs \
-        | sh -s -- -y \
-    && /root/.cargo/bin/cargo install svgcleaner \
-    # Move the svgcleaner executable to a folder in the system's path.
-    && mv /root/.cargo/bin/svgcleaner /usr/bin/svgcleaner \
+    # Download svgcleaner 0.9.5 instead of installing it and its dependencies from scratch
+    && wget -qO- https://github.com/RazrFalcon/svgcleaner/releases/download/v0.9.5/svgcleaner_linux_x86_64_0.9.5.tar.gz | tar -zx \
+    && mv svgcleaner /usr/bin/svgcleaner \
     # Create the MongoDB database directory.
     && mkdir /data \
     && mkdir /data/db \
     # Remove now unneeded dependencies.
     && apt-get purge -y \
-        build-essential \
         curl \
         git-all \
         nodejs \
     && apt-get autoremove -y \
-    && apt-get clean \
-    && /root/.cargo/bin/rustup self uninstall -y
+    && apt-get clean
 
 Add .profile /home/lichess/.profile
 ADD run.sh /home/lichess/run.sh
