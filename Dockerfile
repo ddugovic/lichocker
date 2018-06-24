@@ -23,15 +23,13 @@ RUN useradd -ms /bin/bash lichess \
     && echo "lichess ALL = NOPASSWD : ALL" >> /etc/sudoers \
     # Set locale.
     && locale-gen en_US.UTF-8 \
-    # Silence the parallel citation warning.
-    && mkdir -p /home/lichess/.parallel \
-    && touch /home/lichess/.parallel/will-cite \
     # Update node.
     && npm install -g n \
     && n stable \
     && npm install -g yarn \
     && yarn global add gulp-cli \
     # Install svgcleaner via the Rust package manager, Cargo.
+    # This requires build-essential and downloads many dependencies
     && curl https://sh.rustup.rs \
         | sh -s -- -y \
     && /root/.cargo/bin/cargo install svgcleaner \
@@ -40,9 +38,9 @@ RUN useradd -ms /bin/bash lichess \
     # Create the MongoDB database directory.
     && mkdir /data \
     && mkdir /data/db \
-    && sbt update \
     # Remove now unneeded dependencies.
     && apt-get purge -y \
+        build-essential \
         curl \
         git-all \
         nodejs \
@@ -50,6 +48,7 @@ RUN useradd -ms /bin/bash lichess \
     && apt-get clean \
     && /root/.cargo/bin/rustup self uninstall -y
 
+Add .profile /home/lichess/.profile
 ADD run.sh /home/lichess/run.sh
 ADD nginx.conf /etc/nginx/nginx.conf
 

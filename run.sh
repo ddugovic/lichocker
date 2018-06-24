@@ -1,5 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 cd /home/lichess/projects/lila
+source .profile
 
 # Run nginx.
 sudo nginx
@@ -18,4 +19,4 @@ fi
 yarn install && ./bin/svg-optimize
 
 # Compile and run the Scala application
-./bin/dev -v run
+./bin/dev -v clean && ./bin/dev -v compile && ./bin/dev -v run

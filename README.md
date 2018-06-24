@@ -15,16 +15,16 @@
 
 ### Building the image
 
-Run the following while in the lichocker directory: `docker build --tag brandone211/lichess .`
+Run the following while in the lichocker directory: `docker build --tag ddugovic/lichess .`
 
 ### Retrieving from Docker Hub
 
 ```
 docker login
-docker pull brandone211/lichess
+docker pull ddugovic/lichess
 ```
 
-The Docker Hub repository can be found [here](https://hub.docker.com/r/brandone211/lichess/).
+The Docker Hub repository can be found [here](https://hub.docker.com/r/ddugovic/lichess/).
 
 ## Running
 
@@ -38,7 +38,7 @@ docker run \
     --name lichess \
     --interactive \
     --tty \
-    brandone211/lichess
+    ddugovic/lichess
 ```
 
 * Enter `run` when you see the [Scala Build Tool](https://www.scala-sbt.org/) console appear: `[lila] $`
