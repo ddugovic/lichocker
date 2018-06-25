@@ -2,11 +2,11 @@
 cd /home/lichess/projects/lila
 source .profile
 
-# Run nginx.
-sudo nginx
-
 # Run MongoDB in the background.
-sudo mongod --fork --logpath /var/log/mongod.log
+sudo service mongod start
+
+# Run nginx in the background.
+sudo service nginx start
 
 # Install the GeoLite2 database if we haven't already.
 if [ ! -e ./data/GeoLite2-City.mmdb ]; then

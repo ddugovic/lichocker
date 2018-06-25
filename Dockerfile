@@ -18,6 +18,7 @@ RUN useradd -ms /bin/bash lichess \
         nodejs \
         parallel \
         sudo \
+        systemd \
     # Disable sudo login.
     && echo "lichess ALL = NOPASSWD : ALL" >> /etc/sudoers \
     # Set locale.
