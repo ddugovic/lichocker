@@ -1,6 +1,6 @@
 FROM ddugovic/sbt
 
-RUN useradd -ms /bin/bash lichess \
+RUN useradd -ms /bin/bash lidraughts \
     && apt-get update \
     && apt-get install -y apt-utils \
     && apt-get install -y apt-transport-https \
@@ -18,12 +18,12 @@ RUN useradd -ms /bin/bash lichess \
         parallel \
         sudo \
     # Disable sudo login.
-    && echo "lichess ALL = NOPASSWD : ALL" >> /etc/sudoers \
+    && echo "lidraughts ALL = NOPASSWD : ALL" >> /etc/sudoers \
     # Set locale.
     && locale-gen en_US.UTF-8 \
     # Silence the parallel citation warning.
-    && mkdir -p /home/lichess/.parallel \
-    && touch /home/lichess/.parallel/will-cite \
+    && mkdir -p /home/lidraughts/.parallel \
+    && touch /home/lidraughts/.parallel/will-cite \
     # Update node.
     && npm install -g n \
     && n stable \
@@ -50,7 +50,7 @@ RUN useradd -ms /bin/bash lichess \
     && apt-get clean \
     && /root/.cargo/bin/rustup self uninstall -y
 
-ADD run.sh /home/lichess/run.sh
+ADD run.sh /home/lidraughts/run.sh
 ADD nginx.conf /etc/nginx/nginx.conf
 
 # Use UTF-8 encoding.
@@ -58,10 +58,10 @@ ENV LANG "en_US.UTF-8"
 ENV LC_CTYPE "en_US.UTF-8"
 
 # Run as a non-privileged user.
-USER lichess
+USER lidraughts
 
 EXPOSE 80
 
-WORKDIR /home/lichess
+WORKDIR /home/lidraughts
 
 ENTRYPOINT ./run.sh

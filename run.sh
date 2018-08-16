@@ -1,5 +1,5 @@
 #!/bin/sh
-cd /home/lichess/projects/lila
+cd /home/lidraughts/projects/lidraughts
 
 # Run nginx.
 sudo nginx
